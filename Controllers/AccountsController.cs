@@ -111,7 +111,24 @@ public class AccountsController : ControllerBase
     {
         try
         {
-            return Ok();
+            Account? accountFound = await _context.TB_ACCOUNTS
+                .FirstOrDefaultAsync(x => 
+                    x.Username.ToLower() == existingAccount.Username.ToLower() ||
+                    x.Email.ToLower() == existingAccount.Email.ToLower()
+                );
+            
+            if(accountFound == null){
+                throw new System.Exception("Account not found");
+            }
+            else if(!Cryptography.ValidatePasswordHash(existingAccount.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
+                throw new System.Exception("Incorrect password");
+            }
+            else{
+                accountFound.AcessDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+                string message = $"Account {accountFound.Username} has been logged in";
+                return Ok(message);
+            }
         }
         catch (System.Exception ex)
         {
