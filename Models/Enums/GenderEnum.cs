@@ -1,6 +1,6 @@
 namespace TibiaApi.Models.Enums
 {
-    public enum SexEnum
+    public enum GenderEnum
     {
         Male = 1,
         Female = 2

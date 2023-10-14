@@ -10,7 +10,7 @@ namespace TibiaApi.Models
     {
         public int CharacterId { get; set; }
         public string CharacterName { get; set; } = string.Empty;
-        public SexEnum CharacterSex { get; set; }
+        public GenderEnum CharacterGender { get; set; }
         public VocationEnum CharacterVocation { get; set; }
         public DateTime CharacterCreationDate { get; set; }
         public DateTime CharacterAcessDate { get; set; }
