@@ -14,5 +14,6 @@ namespace TibiaApi.Models
         public VocationEnum CharacterVocation { get; set; }
         public DateTime CharacterCreationDate { get; set; }
         public DateTime CharacterAcessDate { get; set; }
+        public List<CharStats>? CharInfo { get; set; }
     }
 }

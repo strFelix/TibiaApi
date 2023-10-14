@@ -14,7 +14,7 @@ namespace TibiaApi.Controllers;
 [Route("[controller]")]
 public class AccountsController : ControllerBase
 {
-    //Create Account
+
     [HttpPost("CreateAccount")]
     public async Task<IActionResult> CreateAccount(Account newAccountInfo)
     {
@@ -28,7 +28,19 @@ public class AccountsController : ControllerBase
         }
     }
 
-    //Validate Account
+    [HttpPost("DeleteAccount")]
+    public async Task<IActionResult> DeleteAccount(Account existingAccountInfo)
+    {
+        try
+        {
+            return Ok();
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost("ValidateAccount")]
     public async Task<IActionResult> ValidateAccount(Account existingAccountInfo)
     {
@@ -42,5 +54,29 @@ public class AccountsController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPut("ChangePassword")]
+    public async Task<IActionResult> ChangePassword(Account existingAccountInfo)
+    {
+        try
+        {
+            return Ok();
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("ChangeEmail")]
+    public async Task<IActionResult> ChangeEmail(Account existingAccountInfo)
+    {
+        try
+        {
+            return Ok();
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

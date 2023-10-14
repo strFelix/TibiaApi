@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TibiaApi.Utils
 {
-    public class Criptograph
+    public class Cryptography
     {
         public static void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
         {
