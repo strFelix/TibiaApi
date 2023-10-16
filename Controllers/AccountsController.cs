@@ -21,6 +21,7 @@ public class AccountsController : ControllerBase
     public AccountsController(DataContext context){
         _context = context;
     }
+    //end
 
     private async Task<bool> InUseUsername(string username){
         if (await _context.TB_ACCOUNTS.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
@@ -53,7 +54,6 @@ public class AccountsController : ControllerBase
             
             if(await InUseEmail(newAccount.Email))
                 throw new System.Exception("Email is already in use");
-
             //end 
 
             Cryptography.CreatePasswordHash(newAccount.PasswordString, out byte[] hash, out byte[]salt);
@@ -107,20 +107,19 @@ public class AccountsController : ControllerBase
     }
 
     [HttpPost("ValidateAccount")]
-    public async Task<IActionResult> ValidateAccount(Account existingAccount)
+    public async Task<IActionResult> ValidateAccount(Account accountCredentials)
     {
         try
         {
             Account? accountFound = await _context.TB_ACCOUNTS
                 .FirstOrDefaultAsync(x => 
-                    x.Username.ToLower() == existingAccount.Username.ToLower() ||
-                    x.Email.ToLower() == existingAccount.Email.ToLower()
+                    x.Email.ToLower() == accountCredentials.Email.ToLower()
                 );
             
             if(accountFound == null){
                 throw new System.Exception("Account not found");
             }
-            else if(!Cryptography.ValidatePasswordHash(existingAccount.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
+            else if(!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
                 throw new System.Exception("Incorrect password");
             }
             else{
@@ -137,11 +136,30 @@ public class AccountsController : ControllerBase
     }
 
     [HttpPut("ChangePassword")]
-    public async Task<IActionResult> ChangePassword(Account existingAccountInfo)
+    public async Task<IActionResult> ChangePassword(Account accountCredentials, [FromBody] string newPassword)
     {
         try
         {
-            return Ok();
+            Account? accountFound = await _context.TB_ACCOUNTS
+                .FirstOrDefaultAsync(x => 
+                    x.Username.ToLower() == accountCredentials.Username.ToLower() ||
+                    x.Email.ToLower() == accountCredentials.Email.ToLower()
+                );
+
+            if(accountFound == null){
+                throw new System.Exception("Account not found");
+            }
+            else if(!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
+                throw new System.Exception("Incorrect password");
+            }
+            else{
+                Cryptography.CreatePasswordHash(newPassword, out byte[] hash, out byte[]salt);
+                accountFound.PasswordHash = hash;
+                accountFound.PasswordSalt = salt;
+                await _context.SaveChangesAsync();
+
+                return Ok("Password changed successfully");
+            }
         }
         catch (System.Exception ex)
         {
@@ -150,10 +168,11 @@ public class AccountsController : ControllerBase
     }
 
     [HttpPut("ChangeEmail")]
-    public async Task<IActionResult> ChangeEmail(Account existingAccountInfo)
+    public async Task<IActionResult> ChangeEmail(Account accountCredentials, string newEmailAccount)
     {
+        
         try
-        {
+        {   
             return Ok();
         }
         catch (System.Exception ex)

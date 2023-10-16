@@ -31,7 +31,7 @@ namespace TibiaApi.Data
                 PasswordSalt = salt,
                 CreationDate = DateTime.Parse("14/10/2023")
             };
-             modelBuilder.Entity<Account>().HasData(account);
+            modelBuilder.Entity<Account>().HasData(account);
         }
     }
 }
