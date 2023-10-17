@@ -47,13 +47,13 @@ public class AccountsController : ControllerBase
         {
             //validations
             if(newAccount.Username == "" || newAccount.PasswordString == "" || newAccount.Email == "")
-                throw new System.Exception("All credentials must be completed");
+                throw new Exception("All credentials must be completed");
 
             if(await InUseUsername(newAccount.Username))
-                throw new System.Exception("Username is already in use");
+                throw new Exception("Username is already in use");
             
             if(await InUseEmail(newAccount.Email))
-                throw new System.Exception("Email is already in use");
+                throw new Exception("Email is already in use");
             //end 
 
             Cryptography.CreatePasswordHash(newAccount.PasswordString, out byte[] hash, out byte[]salt);
@@ -69,7 +69,7 @@ public class AccountsController : ControllerBase
             return Ok(message);
              
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -88,10 +88,10 @@ public class AccountsController : ControllerBase
                 );
 
             if(accountFound == null){
-                throw new System.Exception("Account not found");
+                throw new Exception("Account not found");
             }
             else if(!Cryptography.ValidatePasswordHash(existingAccount.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
-                throw new System.Exception("Incorrect password");
+                throw new Exception("Incorrect password");
             }
             else{
                 _context.TB_ACCOUNTS.Remove(accountFound);
@@ -100,7 +100,7 @@ public class AccountsController : ControllerBase
                 return Ok(message);
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -117,10 +117,10 @@ public class AccountsController : ControllerBase
                 );
             
             if(accountFound == null){
-                throw new System.Exception("Account not found");
+                throw new Exception("Account not found");
             }
             else if(!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
-                throw new System.Exception("Incorrect password");
+                throw new Exception("Incorrect password");
             }
             else{
                 accountFound.AcessDate = DateTime.Now;
@@ -129,17 +129,28 @@ public class AccountsController : ControllerBase
                 return Ok(message);
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
 
+
+    //class to concatenate property types
+    public class ManagePasswordAccount
+    {
+        public Account AccountCredentials { get; set; }
+        public string NewPassword { get; set; }
+    }
+
     [HttpPut("ChangePassword")]
-    public async Task<IActionResult> ChangePassword(Account accountCredentials, [FromBody] string newPassword)
+    public async Task<IActionResult> ChangePassword(ManagePasswordAccount manageAccount)
     {
         try
         {
+            Account accountCredentials = manageAccount.AccountCredentials;
+            string newPassword = manageAccount.NewPassword;
+
             Account? accountFound = await _context.TB_ACCOUNTS
                 .FirstOrDefaultAsync(x => 
                     x.Username.ToLower() == accountCredentials.Username.ToLower() ||
@@ -147,10 +158,10 @@ public class AccountsController : ControllerBase
                 );
 
             if(accountFound == null){
-                throw new System.Exception("Account not found");
+                throw new Exception("Account not found");
             }
             else if(!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
-                throw new System.Exception("Incorrect password");
+                throw new Exception("Incorrect password");
             }
             else{
                 Cryptography.CreatePasswordHash(newPassword, out byte[] hash, out byte[]salt);
@@ -161,21 +172,46 @@ public class AccountsController : ControllerBase
                 return Ok("Password changed successfully");
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
 
+    public class ManageEmailAccount
+    {
+        public Account AccountCredentials { get; set; }
+        public string NewEmail { get; set; }
+    }
+
     [HttpPut("ChangeEmail")]
-    public async Task<IActionResult> ChangeEmail(Account accountCredentials, string newEmailAccount)
+    public async Task<IActionResult> ChangeEmail(ManageEmailAccount manageAccount)
     {
         
         try
         {   
-            return Ok();
+            Account accountCredentials = manageAccount.AccountCredentials;
+            string newEmail = manageAccount.NewEmail;
+
+            Account? accountFound = await _context.TB_ACCOUNTS
+                .FirstOrDefaultAsync(x => 
+                    x.Username.ToLower() == accountCredentials.Username.ToLower()
+                );
+
+            if(accountFound == null){
+                throw new Exception("Account not found");
+            }
+            else if(!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt)){
+                throw new Exception("Incorrect password");
+            }
+            else{
+                accountFound.Email = newEmail;
+                await _context.SaveChangesAsync();
+
+                return Ok("Email changed successfully");
+            }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
