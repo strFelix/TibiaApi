@@ -136,7 +136,7 @@ public class AccountsController : ControllerBase
     }
 
 
-    //class to concatenate property types
+    //class to concatenate property types [string, Account]
     public class ManagePasswordAccount
     {
         public Account AccountCredentials { get; set; }
@@ -178,6 +178,7 @@ public class AccountsController : ControllerBase
         }
     }
 
+    //class to concatenate property types [string, Account]
     public class ManageEmailAccount
     {
         public Account AccountCredentials { get; set; }
