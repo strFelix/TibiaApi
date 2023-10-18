@@ -16,6 +16,6 @@ namespace TibiaApi.Models
         public byte[]? PasswordSalt { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? AcessDate { get; set; }
-        List<Char>? AccountCharacters  { get; set; }
+        List<Character>? AccountCharacters  { get; set; }
     }
 }
