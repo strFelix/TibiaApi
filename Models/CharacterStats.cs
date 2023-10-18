@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TibiaApi.Models
 {
-    public class CharStats
+    public class CharacterStats
     {
         public int Level { get; set; }
         public int MagicLevel { get; set; }
