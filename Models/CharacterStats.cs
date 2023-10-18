@@ -7,7 +7,7 @@ namespace TibiaApi.Models
 {
     public class CharacterStats
     {
-        public int CharacterID { get; set; }
+        public int CharacterId { get; set; }
         public int Level { get; set; }
         public int MagicLevel { get; set; }
         public int FistFigthing { get; set; }
