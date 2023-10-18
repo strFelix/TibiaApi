@@ -139,8 +139,8 @@ public class AccountsController : ControllerBase
     //class to concatenate property types [string, Account]
     public class ManagePasswordAccount
     {
-        public Account AccountCredentials { get; set; }
-        public string NewPassword { get; set; }
+        public required Account AccountCredentials { get; set; }
+        public required string NewPassword { get; set; }
     }
 
     [HttpPut("ChangePassword")]
@@ -181,8 +181,8 @@ public class AccountsController : ControllerBase
     //class to concatenate property types [string, Account]
     public class ManageEmailAccount
     {
-        public Account AccountCredentials { get; set; }
-        public string NewEmail { get; set; }
+        public required Account AccountCredentials { get; set; }
+        public required string NewEmail { get; set; }
     }
 
     [HttpPut("ChangeEmail")]
