@@ -17,7 +17,9 @@ namespace TibiaApi.Models
         public VocationEnum Vocation { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime AcessDate { get; set; }
-        public List<Skill> Skills { get; set; }
+        
+        [JsonIgnore]
+        public Skill Skills { get; set; }
 
         //Accounting
         [JsonIgnore]

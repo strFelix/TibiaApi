@@ -150,3 +150,7 @@ C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\obj\Debug\net7.0\refint\TibiaA
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\obj\Debug\net7.0\TibiaApi.pdb
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\obj\Debug\net7.0\TibiaApi.genruntimeconfig.cache
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\obj\Debug\net7.0\ref\TibiaApi.dll
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

@@ -48,20 +48,22 @@ namespace TibiaApi.Data
             modelBuilder.Entity<Character>().HasData(character);
 
             //Creating skills for BetaCharacter
-            Skill skill = new Skill(){
-                Id = 1,
-                CharacterId = 1,
-                Level = 8,
-                MagicLevel = 1,
-                FistFigthing = 10,
-                ClubFigthing = 10,
-                SwordFigthing = 10,
-                AxeFigthing = 10,
-                DistanceFigthing = 10,
-                Shielding = 10,
-                Fishing = 10
-            };
-            modelBuilder.Entity<Skill>().HasData(skill);
+            modelBuilder.Entity<Skill>().HasData(
+                new Skill()
+                {
+                    Id = 1,
+                    Level = 8,
+                    MagicLevel = 1,
+                    FistFigthing = 10,
+                    ClubFigthing = 10,
+                    SwordFigthing = 10,
+                    AxeFigthing = 10,
+                    DistanceFigthing = 10,
+                    Shielding = 10,
+                    Fishing = 10,
+                    CharacterId = 1
+                }
+            );
         }
     }
 }
