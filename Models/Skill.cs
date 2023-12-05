@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TibiaApi.Models
 {
@@ -18,5 +22,8 @@ namespace TibiaApi.Models
         public int DistanceFigthing { get; set; }
         public int Shielding { get; set; }
         public int Fishing { get; set; }
+
+        [JsonIgnore]
+        public Character Character { get; set; }
     }
 }
