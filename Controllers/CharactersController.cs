@@ -48,7 +48,7 @@ namespace TibiaApi.Controllers
         };
         //end
 
-        //validations
+        //validations methods
         private async Task<bool> InUseCharacterName(string name){
         if (await _context.TB_CHARACTERS.AnyAsync(x => x.Name.ToLower() == name.ToLower()))
         {
@@ -56,13 +56,21 @@ namespace TibiaApi.Controllers
         }
             return false;
         }
+        private async Task<bool> CharacterCount(int accountId){
+            List<Character> list = await _context.TB_CHARACTERS.Where(a => a.Account.Id == accountId).ToListAsync();
+            if(list.Count >= 10){
+               return true; 
+            }
+            return false;
+        }
         //end
 
-        [HttpPost("CreateCharacter")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateCharacter(Character newCharacter)
         {
             try
             {
+                //validations
                 if(newCharacter.Name == "")
                     throw new Exception("Character name must be completed");
 
@@ -74,6 +82,10 @@ namespace TibiaApi.Controllers
 
                 if(account == null)
                     throw new Exception("Account not found");
+
+                if(await CharacterCount(newCharacter.AccountId))
+                    throw new Exception("Limit of characters per account reached");
+                //end
 
                 newCharacter.Account = account;
                 newCharacter.CreationDate = DateTime.Now;
@@ -100,7 +112,8 @@ namespace TibiaApi.Controllers
                 await _context.TB_CHARACTERS.AddAsync(newCharacter);
                 await _context.TB_SKILLS.AddAsync(newCharacter.Skills);
                 await _context.SaveChangesAsync();
-                return Ok();
+                string message = "Character created successfully";
+                return Ok(message);
             }
             catch (System.Exception ex) 
             {
