@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TibiaApi.Data;
 
@@ -12,11 +11,9 @@ using TibiaApi.Data;
 namespace TibiaApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231018162831_CreateCharacter")]
-    partial class CreateCharacter
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +37,6 @@ namespace TibiaApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
@@ -50,11 +46,9 @@ namespace TibiaApi.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PasswordString")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -67,8 +61,8 @@ namespace TibiaApi.Migrations
                             Id = 1,
                             CreationDate = new DateTime(2023, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "beta.tester@gmail.com",
-                            PasswordHash = new byte[] { 40, 177, 216, 197, 121, 89, 105, 113, 116, 235, 250, 218, 40, 216, 199, 232, 154, 89, 214, 163, 43, 242, 5, 155, 28, 109, 29, 191, 64, 52, 181, 110, 122, 66, 137, 61, 224, 204, 60, 249, 129, 226, 62, 63, 42, 220, 135, 225, 40, 87, 113, 99, 214, 237, 56, 67, 196, 122, 54, 162, 243, 14, 51, 2 },
-                            PasswordSalt = new byte[] { 124, 64, 227, 145, 170, 18, 8, 47, 25, 1, 226, 165, 52, 82, 203, 53, 174, 103, 239, 64, 55, 193, 255, 183, 196, 228, 9, 92, 216, 162, 62, 182, 143, 71, 33, 160, 188, 11, 122, 166, 192, 183, 140, 251, 109, 44, 9, 22, 113, 226, 4, 197, 163, 125, 138, 158, 170, 47, 139, 248, 215, 4, 19, 70, 81, 11, 113, 121, 177, 208, 93, 255, 100, 179, 70, 190, 14, 203, 5, 166, 37, 59, 13, 16, 109, 210, 172, 107, 146, 15, 18, 103, 84, 30, 228, 110, 121, 48, 223, 70, 27, 85, 41, 72, 146, 24, 203, 184, 212, 168, 83, 88, 254, 69, 154, 54, 85, 26, 181, 207, 118, 1, 21, 72, 244, 34, 164, 73 },
+                            PasswordHash = new byte[] { 206, 63, 207, 173, 32, 117, 60, 225, 183, 32, 126, 188, 56, 109, 15, 22, 55, 66, 245, 123, 105, 65, 218, 128, 125, 216, 221, 167, 227, 43, 169, 94, 190, 80, 16, 145, 57, 212, 200, 161, 134, 36, 254, 124, 119, 145, 105, 84, 37, 185, 169, 192, 241, 44, 82, 40, 221, 67, 137, 75, 192, 161, 149, 45 },
+                            PasswordSalt = new byte[] { 198, 47, 249, 115, 253, 255, 186, 236, 3, 202, 100, 63, 188, 228, 116, 113, 245, 81, 103, 242, 142, 251, 97, 144, 157, 203, 234, 180, 213, 51, 73, 65, 238, 53, 9, 134, 250, 200, 204, 12, 219, 148, 145, 25, 54, 146, 247, 30, 68, 65, 193, 205, 87, 233, 251, 217, 128, 178, 173, 74, 155, 242, 72, 142, 209, 131, 43, 138, 38, 142, 44, 101, 186, 107, 54, 31, 111, 121, 159, 139, 242, 35, 89, 42, 193, 99, 187, 131, 173, 191, 128, 139, 121, 109, 214, 60, 84, 177, 11, 39, 22, 199, 5, 138, 43, 53, 167, 169, 237, 52, 144, 46, 77, 18, 83, 20, 236, 131, 37, 252, 152, 100, 1, 189, 141, 50, 209, 82 },
                             PasswordString = "",
                             Username = "BetaTester"
                         });
@@ -95,7 +89,6 @@ namespace TibiaApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Vocation")
@@ -131,7 +124,7 @@ namespace TibiaApi.Migrations
                     b.Property<int>("AxeFigthing")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CharacterId")
+                    b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClubFigthing")
@@ -160,9 +153,26 @@ namespace TibiaApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId");
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
 
-                    b.ToTable("Skill");
+                    b.ToTable("TB_SKILLS");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AxeFigthing = 10,
+                            CharacterId = 1,
+                            ClubFigthing = 10,
+                            DistanceFigthing = 10,
+                            Fishing = 10,
+                            FistFigthing = 10,
+                            Level = 8,
+                            MagicLevel = 1,
+                            Shielding = 10,
+                            SwordFigthing = 10
+                        });
                 });
 
             modelBuilder.Entity("TibiaApi.Models.Character", b =>
@@ -178,9 +188,13 @@ namespace TibiaApi.Migrations
 
             modelBuilder.Entity("TibiaApi.Models.Skill", b =>
                 {
-                    b.HasOne("TibiaApi.Models.Character", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("CharacterId");
+                    b.HasOne("TibiaApi.Models.Character", "Character")
+                        .WithOne("Skills")
+                        .HasForeignKey("TibiaApi.Models.Skill", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("TibiaApi.Models.Character", b =>

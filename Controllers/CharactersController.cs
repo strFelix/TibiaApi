@@ -23,6 +23,32 @@ namespace TibiaApi.Controllers
         }
         //end
 
+        //character skills
+        public Skill Bruiser = new Skill(){
+            Level = 8,
+            MagicLevel = 0,
+            FistFigthing = 10,
+            ClubFigthing = 10,
+            SwordFigthing = 10,
+            AxeFigthing = 10,
+            DistanceFigthing = 10,
+            Shielding = 10,
+            Fishing = 10
+        };
+        public Skill Mage = new Skill(){
+            Level = 8,
+            MagicLevel = 10,
+            FistFigthing = 10,
+            ClubFigthing = 10,
+            SwordFigthing = 10,
+            AxeFigthing = 10,
+            DistanceFigthing = 10,
+            Shielding = 10,
+            Fishing = 10
+        };
+        //end
+
+        //validations
         private async Task<bool> InUseCharacterName(string name){
         if (await _context.TB_CHARACTERS.AnyAsync(x => x.Name.ToLower() == name.ToLower()))
         {
@@ -51,24 +77,23 @@ namespace TibiaApi.Controllers
 
                 newCharacter.Account = account;
                 newCharacter.CreationDate = DateTime.Now;
-                newCharacter.Skills.CharacterId = newCharacter.Id;
-
+                
                 Skill skill = new Skill();
                 switch(newCharacter.Vocation){
                     case Models.Enums.VocationEnum.Knight:
-                        newCharacter.Skills = skill.DefaultSkills;
+                        newCharacter.Skills = Bruiser;
                         break;
 
                     case Models.Enums.VocationEnum.Paladin:
-                        newCharacter.Skills = skill.DefaultSkills;
+                        newCharacter.Skills = Bruiser;
                         break;
                     
                     case Models.Enums.VocationEnum.Sorcerer:
-                        newCharacter.Skills = skill.DefaultMageSkills;
+                        newCharacter.Skills = Mage;
                         break;
 
                     case Models.Enums.VocationEnum.Druid:
-                        newCharacter.Skills = skill.DefaultMageSkills;
+                        newCharacter.Skills = Mage;
                         break;
                 }
 

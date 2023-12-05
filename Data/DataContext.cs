@@ -35,6 +35,24 @@ namespace TibiaApi.Data
             };
             modelBuilder.Entity<Account>().HasData(account);
 
+            //Creating skills for BetaCharacter
+            modelBuilder.Entity<Skill>().HasData(
+                new Skill()
+                {
+                    Id = 1,
+                    CharacterId = 1,
+                    Level = 8,
+                    MagicLevel = 1,
+                    FistFigthing = 10,
+                    ClubFigthing = 10,
+                    SwordFigthing = 10,
+                    AxeFigthing = 10,
+                    DistanceFigthing = 10,
+                    Shielding = 10,
+                    Fishing = 10
+                }
+            );
+
             //Creating first Character for tests
             Character character = new Character()
             {
@@ -46,24 +64,6 @@ namespace TibiaApi.Data
                 CreationDate = DateTime.Parse("18/10/2023"),
             };
             modelBuilder.Entity<Character>().HasData(character);
-
-            //Creating skills for BetaCharacter
-            modelBuilder.Entity<Skill>().HasData(
-                new Skill()
-                {
-                    Id = 1,
-                    Level = 8,
-                    MagicLevel = 1,
-                    FistFigthing = 10,
-                    ClubFigthing = 10,
-                    SwordFigthing = 10,
-                    AxeFigthing = 10,
-                    DistanceFigthing = 10,
-                    Shielding = 10,
-                    Fishing = 10,
-                    CharacterId = 1
-                }
-            );
         }
     }
 }

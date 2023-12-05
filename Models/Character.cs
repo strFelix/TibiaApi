@@ -18,6 +18,7 @@ namespace TibiaApi.Models
         public DateTime CreationDate { get; set; }
         public DateTime AcessDate { get; set; }
         
+        //satats
         [JsonIgnore]
         public Skill Skills { get; set; }
 
