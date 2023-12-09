@@ -161,8 +161,7 @@ public class AccountsController : ControllerBase
             {
                 accountFound.AcessDate = DateTime.Now;
                 await _context.SaveChangesAsync();
-                string message = $"Account {accountFound.Username} has been logged in";
-                return Ok(message);
+                return Ok(accountFound);
             }
         }
         catch (Exception ex)

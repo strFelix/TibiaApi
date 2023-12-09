@@ -154,3 +154,8 @@ C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Microsoft.Asp
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\publish\web.config
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\publish\appsettings.Development.json
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\publish\appsettings.json
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\publish\TibiaApi.deps.json
+C:\Users\Felix\Desktop\Projetos\Projects\TibiaApi\bin\Debug\net7.0\publish\TibiaApi.runtimeconfig.json
