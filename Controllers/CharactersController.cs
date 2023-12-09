@@ -113,9 +113,22 @@ public class CharactersController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
 
-    [HttpPost("Create")]
+    [HttpGet("skill/{id}")]
+    public async Task<IActionResult> GetSkill(int id)
+    {
+        try
+        {
+            Skill? skill = await _context.TB_SKILLS.FirstOrDefaultAsync(x => x.CharacterId == id);
+            return Ok(skill);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPost("create")]
     public async Task<IActionResult> CreateCharacter(Character newCharacter)
     {
         try
@@ -165,6 +178,25 @@ public class CharactersController : ControllerBase
             await _context.SaveChangesAsync();
             string message = "Character created successfully";
             return Ok(message);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCharacter(int id)
+    {
+        try
+        {
+            Character searchChar = await _context.TB_CHARACTERS.FirstOrDefaultAsync(p => p.Id == id);
+            Skill searchSkill = await _context.TB_SKILLS.FirstOrDefaultAsync(p => p.CharacterId == id);
+
+            _context.TB_CHARACTERS.Remove(searchChar);
+            _context.TB_SKILLS.Remove(searchSkill);
+            await _context.SaveChangesAsync();
+            return Ok("Character deleted successfully");
         }
         catch (System.Exception ex)
         {
