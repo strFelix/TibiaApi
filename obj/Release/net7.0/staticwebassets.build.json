@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "jXeypwgvHB+yQjxAu3jReEUeNbMEYRdA19wzfMQXdEM=",
+  "Source": "TibiaApi",
+  "BasePath": "_content/TibiaApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

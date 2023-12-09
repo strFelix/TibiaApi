@@ -31,7 +31,7 @@ namespace TibiaApi.Data
                 PasswordString = string.Empty,
                 PasswordHash = hash,
                 PasswordSalt = salt,
-                CreationDate = DateTime.Parse("14/10/2023"),
+                CreationDate = DateTime.Now,
             };
             modelBuilder.Entity<Account>().HasData(account);
 
@@ -61,7 +61,7 @@ namespace TibiaApi.Data
                 Name = "BetaCharacter",
                 Gender = Models.Enums.GenderEnum.Male,
                 Vocation = Models.Enums.VocationEnum.Knight,
-                CreationDate = DateTime.Parse("18/10/2023"),
+                CreationDate = DateTime.Now,
             };
             modelBuilder.Entity<Character>().HasData(character);
         }
