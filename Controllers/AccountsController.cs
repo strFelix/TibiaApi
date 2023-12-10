@@ -170,89 +170,58 @@ public class AccountsController : ControllerBase
         }
     }
 
-    //class to concatenate property types [string, Account]
-    public class ManagePasswordAccount
-    {
-        public required Account AccountCredentials { get; set; }
-        public required string NewPassword { get; set; }
-    }
-
-    [HttpPut("UpdatePassword")]
-    public async Task<IActionResult> ChangePassword(ManagePasswordAccount manageAccount)
+    [HttpPut("UpdateEmail")]
+    public async Task<IActionResult> ChangeEmail(Account credentials)
     {
         try
         {
-            Account accountCredentials = manageAccount.AccountCredentials;
-            string newPassword = manageAccount.NewPassword;
+            Account account= await _context.TB_ACCOUNTS
+            .FirstOrDefaultAsync(x => x.Id == credentials.Id);
 
-            Account? accountFound = await _context.TB_ACCOUNTS
-                .FirstOrDefaultAsync(x =>
-                    x.Username.ToLower() == accountCredentials.Username.ToLower() ||
-                    x.Email.ToLower() == accountCredentials.Email.ToLower()
-                );
+            account.Email = credentials.Email;
 
-            if (accountFound == null)
-            {
-                throw new Exception("Account not found");
-            }
-            else if (!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt))
-            {
-                throw new Exception("Incorrect password");
-            }
-            else
-            {
-                Cryptography.CreatePasswordHash(newPassword, out byte[] hash, out byte[] salt);
-                accountFound.PasswordHash = hash;
-                accountFound.PasswordSalt = salt;
-                await _context.SaveChangesAsync();
+            var attach = _context.Attach(account);
+            attach.Property(x => x.Id).IsModified = false;
+            attach.Property(x => x.Email).IsModified = true;
 
-                return Ok("Password changed successfully");
-            }
+            await _context.SaveChangesAsync();
+            string message = $"'{account.Username}' email changed successfully";
+            return Ok(message);
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
 
-    //class to concatenate property types [string, Account]
-    public class ManageEmailAccount
-    {
-        public required Account AccountCredentials { get; set; }
-        public required string NewEmail { get; set; }
-    }
 
-    [HttpPut("UpdateEmail")]
-    public async Task<IActionResult> ChangeEmail(ManageEmailAccount manageAccount)
+    [HttpPut("UpdatePassword")]
+    public async Task<IActionResult> ChangePassword(Account credentials)
     {
 
         try
         {
-            Account accountCredentials = manageAccount.AccountCredentials;
-            string newEmail = manageAccount.NewEmail;
+            Account? account = await _context.TB_ACCOUNTS
+                .FirstOrDefaultAsync(x => x.Username.ToLower().Equals(credentials.Username.ToLower()));
 
-            Account? accountFound = await _context.TB_ACCOUNTS
-                .FirstOrDefaultAsync(x =>
-                    x.Username.ToLower() == accountCredentials.Username.ToLower()
-                );
-
-            if (accountFound == null)
+            if (account == null)
             {
-                throw new Exception("Account not found");
-            }
-            else if (!Cryptography.ValidatePasswordHash(accountCredentials.PasswordString, accountFound.PasswordHash, accountFound.PasswordSalt))
-            {
-                throw new Exception("Incorrect password");
+                throw new System.Exception("Account not found");
             }
             else
             {
-                accountFound.Email = newEmail;
+                Cryptography.CreatePasswordHash(credentials.PasswordString, out byte[] hash, out byte[] salt);
+                account.PasswordString = string.Empty;
+                account.PasswordHash = hash;
+                account.PasswordSalt = salt;
                 await _context.SaveChangesAsync();
 
-                return Ok("Email changed successfully");
+                string message = $"'{account.Username}' password changed successfully";
+                return Ok(message);
             }
+
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             return BadRequest(ex.Message);
         }
